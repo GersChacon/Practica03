@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+      <head th:replace="~{layout/plantilla :: head}">
+        <title>Arbol</title>
+    </head>
+    <body>
+        <div>TODO write content</div>
+        
+        <!-- Boton para agregar -->
+        <section th:fragment="botonAgregar" class="py-4 mb-4 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">   
+                        <button type="button" 
+                                class="btn btn-primary rounded-pill px-3" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#agregarArbol">
+                            <i class="fas fa-plus"></i>[[#{arbol.listado}]]
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+      
+        
+
+        <!-- 1 Mostrar listado de arbol-->
+        <section th:fragment="listado" id="arbol">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>[[#{arbol.listado}]]</h4>
+                            </div>
+                            <div th:if="${arbol != null and !arbol.empty}">
+                                <table class="table table-striped table-hover">
+                                    <thead class="table-dark">
+                                        <tr><th>[[#{arbol.id}]]</th>
+                                            <th>[[#{arbol.nombres}]]</th>
+                                            <th>[[#{arbol.tipos}]]</th>
+                                            <th>[[#{arbol.dureza}]]</th>
+                                            <th>[[#{arbol.anios}]]</th>
+                                            <th></th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="arbol, contador : ${arbol}">
+                                            <td>[[#{arbol.id}]]</td>
+                                            <td>[[#{arbol.nombres}]]</td>
+                                            <td th:text="${arbol.activo} ? 'Activa' : 'Inactiva'" />
+                                            <td><a th:href="@{/arbol/eliminar/}+${arbol.idArbol}"
+                                                   class="btn btn-danger">
+                                                    <i class="fas fa-trash"></i>[[#{accion.eliminar}]]</a>
+                                                <a th:href="@{/arbol/modificar/}+${arbol.idArbol}"
+                                                   class="btn btn-success">
+                                                    <i class="fas fa-pencil"></i>[[#{accion.actualizar}]]</a></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-center p-2" th:if="${arbol == null or arbol.empty}">
+                                <span>[[#{lista.vacia}]]</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="btn btn-primary rounded-pill px-3">
+                            <div class="card-body">
+                                <h4>[[#{arbol.total}]]</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+
+
+        
+        
+        
+    </body>
+</html>
+
