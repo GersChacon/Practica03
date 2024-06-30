@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-      <head th:replace="~{layout/plantilla :: head}">
+    <head th:replace="~{layout/plantilla :: head}">
         <title>Arbol</title>
-    </head>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">    </head>
     <body>
         <div>TODO write content</div>
-        
+
         <!-- Boton para agregar -->
         <section th:fragment="botonAgregar" class="py-4 mb-4 bg-light">
             <div class="container">
@@ -17,16 +17,65 @@
                                 class="btn btn-primary rounded-pill px-3" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#agregarArbol">
-                            <i class="fas fa-plus"></i>[[#{arbol.listado}]]
+                            <i class="fas fa-plus"></i>[[#{accion.agregar}]]
                         </button>
                     </div>
                 </div>
             </div>
-        </section>
-      
-        
+        </section>      
 
-        <!-- 1 Mostrar listado de arbol-->
+        <!-- Agregar arbol, ventana modal -->
+        <section th:fragment="agregarArbol">
+            <div id="agregarArbol" 
+                 class="modal fade" 
+                 tabindex="-1" 
+                 aria-labelledby="exampleModalLabel" 
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title">[[#{arbol.agregar}]]</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div> 
+                        <form th:action="@{/arbol/guardar}" th:object="${arbol}"
+                              method="POST" class="was-validated" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="id">[[#{arbol.id}]]</label>
+                                    <input type="text" class="form-control" name="id" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nombre">[[#{arbol.nombre}]]</label>
+                                    <input class="form-control" name="nombre" required="true"></input>
+                                </div>                                
+                                <div class="mb-3">
+                                    <label for="tipo">[[#{arbol.tipo}]]</label>
+                                    <input class="form-control" name="tipo" required="true"></input>
+                                </div> 
+                                <div class="mb-3">
+                                    <label for="dureza">[[#{arbol.dureza}]]</label>
+                                    <input class="form-control" name="dureza" required="true"></input>
+                                </div>                                  
+                                <div class="mb-3">
+                                    <label for="anio">[[#{arbol.anio}]]</label>
+                                    <input class="form-control" name="anio" required="true"></input>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="imagen">[[#{arbol.imagen}]]</label>
+                                    <input class="form-control" type="file" name="imagenFile" onchange="readURL(this);"/>
+                                    <img id="blah" src="#" alt="your image" height="200"/>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary">[[#{accion.guardar}]]</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>  
+
+        <!-- Listado de los arboles -->
         <section th:fragment="listado" id="arbol">
             <div class="container">
                 <div class="row">
@@ -38,24 +87,31 @@
                             <div th:if="${arbol != null and !arbol.empty}">
                                 <table class="table table-striped table-hover">
                                     <thead class="table-dark">
-                                        <tr><th>[[#{arbol.id}]]</th>
-                                            <th>[[#{arbol.nombres}]]</th>
-                                            <th>[[#{arbol.tipos}]]</th>
+                                        <tr>
+                                            <th>[[#{arbol.id}]]</th>
+                                            <th>[[#{arbol.nombre}]]</th>
+                                            <th>[[#{arbol.tipo}]]</th>
                                             <th>[[#{arbol.dureza}]]</th>
-                                            <th>[[#{arbol.anios}]]</th>
-                                            <th></th></tr>
+                                            <th>[[#{arbol.anio}]]</th>
+                                            <th></th>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                         <tr th:each="arbol, contador : ${arbol}">
-                                            <td>[[#{arbol.id}]]</td>
-                                            <td>[[#{arbol.nombres}]]</td>
-                                            <td th:text="${arbol.activo} ? 'Activa' : 'Inactiva'" />
-                                            <td><a th:href="@{/arbol/eliminar/}+${arbol.idArbol}"
-                                                   class="btn btn-danger">
-                                                    <i class="fas fa-trash"></i>[[#{accion.eliminar}]]</a>
-                                                <a th:href="@{/arbol/modificar/}+${arbol.idArbol}"
-                                                   class="btn btn-success">
-                                                    <i class="fas fa-pencil"></i>[[#{accion.actualizar}]]</a></td></tr>
+                                            <td th:text="${arbol.id}">[[#{arbol.id}]]</td>
+                                            <td th:text="${arbol.nombre}">[[#{arbol.nombre}]]</td>
+                                            <td th:text="${arbol.tipo}">[[#{arbol.tipo}]]</td>
+                                            <td th:text="${arbol.dureza}">[[#{arbol.dureza}]]</td>
+                                            <td th:text="${arbol.anio}">[[#{arbol.anio}]]</td>
+                                            <td>
+                                                <a th:href="@{/arbol/eliminar/}+${arbol.idArbol}" class="btn btn-danger">
+                                                    <i class="fas fa-trash"></i> [[#{accion.eliminar}]]
+                                                </a>
+                                                <a th:href="@{/arbol/modificar/}+${arbol.idArbol}" class="btn btn-success">
+                                                    <i class="fas fa-pencil"></i> [[#{accion.actualizar}]]
+                                                </a>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -75,15 +131,49 @@
             </div>
         </section>
 
+        <!--Boton Actualizar-->
+        <section th:fragment="botonActualizar">
+            <div class="container py-4 mb-4 bg-light">
+                <div class="row">
+                    <div class="col-md-4 d-grid">
+                        <a th:href="@{/arbol/listado}" class="btn btn-primary">
+                            <i class="fas fa-arrow-left"></i> [[#{accion.regresar}]]
+                        </a>
+                    </div>
+                    <div class="col-md-4 d-grid">                                
+                        <a th:href="@{/arbol/eliminar/}+${arbol.idArbol}"
+                           class="btn btn-danger">
+                            <i class="fas fa-trash"></i> [[#{accion.eliminar}]]
+                        </a>
+                    </div>
+                    <div class="col-md-4 d-grid">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-check"></i> [[#{accion.guardar}]]
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>   
+
+        <--<!-- Boton para Actualizar -->
+        <section th:fragment="botonActualizar" class="py-4 mb-4 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">   
+                        <button type="button" 
+                                class="btn btn-primary rounded-pill px-3" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#modificarArbol">
+                            <i class="fas fa-plus"></i>[[#{accion.actualizar}]]
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>         
 
 
-
-
-
-
-        
-        
-        
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>        
     </body>
 </html>
-
