@@ -58,7 +58,7 @@ public class ArbolController {
         return "redirect:/arbol/listado";
     }
 
-    @GetMapping("/modificar/{idArbol}")
+    @GetMapping("/modificar/{id}")
     public String arbolModificar(Arbol arbol, Model model) {
         arbol = arbolService.getArbol(arbol);
         model.addAttribute("arbol", arbol);
