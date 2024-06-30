@@ -84,7 +84,7 @@
                             <div class="card-header">
                                 <h4>[[#{arbol.listado}]]</h4>
                             </div>
-                            <div th:if="${arbol != null and !arbol.empty}">
+                            <div th:if="${arboles != null and !arboles.empty}">
                                 <table class="table table-striped table-hover">
                                     <thead class="table-dark">
                                         <tr>
@@ -97,17 +97,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each="arbol, contador : ${arbol}">
+                                        <tr th:each="arbol, contador : ${arboles}">
                                             <td th:text="${arbol.id}">[[#{arbol.id}]]</td>
-                                            <td th:text="${arbol.nombre}">[[#{arbol.nombre}]]</td>
-                                            <td th:text="${arbol.tipo}">[[#{arbol.tipo}]]</td>
-                                            <td th:text="${arbol.dureza}">[[#{arbol.dureza}]]</td>
-                                            <td th:text="${arbol.anio}">[[#{arbol.anio}]]</td>
+                                            <td th:text="${arbol.nombreComun}">[[#{arbol.nombre}]]</td>
+                                            <td th:text="${arbol.tipoFlor}">[[#{arbol.tipo}]]</td>
+                                            <td th:text="${arbol.durezaMadera}">[[#{arbol.dureza}]]</td>
+                                            <td th:text="${arbol.anios}">[[#{arbol.anio}]]</td>
                                             <td>
-                                                <a th:href="@{/arbol/eliminar/}+${arbol.idArbol}" class="btn btn-danger">
+                                                <a th:href="@{/arbol/eliminar/}+${arbol.id}" class="btn btn-danger">
                                                     <i class="fas fa-trash"></i> [[#{accion.eliminar}]]
                                                 </a>
-                                                <a th:href="@{/arbol/modificar/}+${arbol.idArbol}" class="btn btn-success">
+                                                <a th:href="@{/arbol/modificar/}+${arbol.id}" class="btn btn-success">
                                                     <i class="fas fa-pencil"></i> [[#{accion.actualizar}]]
                                                 </a>
                                             </td>
@@ -115,7 +115,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="text-center p-2" th:if="${arbol == null or arbol.empty}">
+                            <div class="text-center p-2" th:if="${arboles == null or arboles.empty}">
                                 <span>[[#{lista.vacia}]]</span>
                             </div>
                         </div>
@@ -123,7 +123,8 @@
                     <div class="col-md-3">
                         <div class="btn btn-primary rounded-pill px-3">
                             <div class="card-body">
-                                <h4>[[#{arbol.total}]]</h4>
+                                <h3>[[#{arbol.total}]]</h3>
+                                <h4 class="fs-2"><i class="fas fa-users"></i> [[${totalArboles}]]</h4>
                             </div>
                         </div>
                     </div>

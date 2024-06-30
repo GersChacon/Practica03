@@ -6,7 +6,7 @@ import java.util.List;
 public interface ArbolService {
     
     // Se obtiene un listado de arboles en un List
-    public List<Arbol> getArboles();
+    public List<Arbol> getArboles(boolean activos);
     
    // Se obtiene un Arbol, a partir del id de un arbol
     public Arbol getArbol(Arbol arbol);

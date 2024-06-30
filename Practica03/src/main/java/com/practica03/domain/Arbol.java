@@ -13,8 +13,8 @@ public class Arbol implements Serializable {
 
     @Id //Indica el ID
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-   
     private long id;
+    
     @Column(name = "nombre_comun")
     private String nombreComun;
     @Column (name = "tipo_flor")

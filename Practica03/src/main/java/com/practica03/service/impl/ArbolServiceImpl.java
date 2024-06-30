@@ -16,9 +16,11 @@ public class ArbolServiceImpl implements ArbolService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Arbol> getArboles() {
+    public List<Arbol> getArboles(boolean activos) {
         var lista = arbolDao.findAll();
-
+        if(activos){
+        lista.removeIf(e-> !e.isActivo());
+        }
         return lista;
     }
 
